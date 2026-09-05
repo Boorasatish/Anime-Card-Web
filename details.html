@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character Details | ANIME World</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.detail-page{min-height:100vh;background:radial-gradient(circle at 80% 20%,rgba(123,44,255,.2),transparent 35%),#05030a}
+.detail-nav{height:76px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.55);backdrop-filter:blur(14px)}
+.detail-wrap{max-width:1200px;margin:auto;padding:70px 6%}
+.back-link{display:inline-flex;gap:8px;margin-bottom:30px;color:#00e5ff;font-weight:700}
+.detail-card{display:grid;grid-template-columns:420px 1fr;gap:55px;align-items:center}
+.detail-image-wrap{position:relative;border-radius:28px;overflow:hidden;border:1px solid rgba(202,38,255,.6);box-shadow:0 30px 80px rgba(123,44,255,.18)}
+.detail-image-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.5))}
+.detail-image{width:100%;height:580px;object-fit:cover;display:block;animation:detailImage .9s ease both}
+.detail-content{animation:detailContent .8s .1s ease both}
+.detail-tag{color:#ffae00;letter-spacing:3px;font-size:12px;font-weight:800}
+.detail-title{font-size:clamp(42px,6vw,76px);margin:10px 0;line-height:1}
+.detail-anime{color:#ca26ff;font-size:20px;font-weight:700}
+.detail-description{color:#c7c2ce;line-height:1.9;font-size:17px;margin:25px 0}
+.detail-rating{display:inline-block;background:rgba(255,255,255,.08);padding:8px 14px;border-radius:20px;margin-bottom:25px}
+.ability-title{font-size:24px;margin-bottom:14px}
+.abilities{display:flex;flex-wrap:wrap;gap:10px;list-style:none}
+.abilities li{padding:10px 14px;border:1px solid rgba(0,229,255,.25);border-radius:12px;background:rgba(0,229,255,.05);color:#fff;transition:.3s}
+.abilities li:hover{transform:translateY(-4px);border-color:#00e5ff}
+.detail-actions{margin-top:35px;display:flex;gap:12px;flex-wrap:wrap}
+@keyframes detailImage{from{opacity:0;transform:scale(1.08) translateX(-25px)}to{opacity:1;transform:none}}
+@keyframes detailContent{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@media(max-width:800px){.detail-card{grid-template-columns:1fr}.detail-image{height:500px}.detail-wrap{padding:45px 5%}}
+</style>
+</head>
+<body>
+<div class="detail-page">
+<nav class="detail-nav">
+    <div class="logo"><span class="span-1">❤️</span>ANIME<span class="span-2">World</span></div>
+    <a class="second-btn" href="index.html#collection">← Collection</a>
+</nav>
+<main class="detail-wrap">
+    <a class="back-link" href="index.html#collection">← Back to all cards</a>
+    <section class="detail-card">
+        <div class="detail-image-wrap">
+            <img id="detailImage" class="detail-image" src="" alt="">
+        </div>
+        <div class="detail-content">
+            <p id="detailType" class="detail-tag"></p>
+            <h1 id="detailName" class="detail-title"></h1>
+            <p id="detailAnime" class="detail-anime"></p>
+            <div class="detail-rating">⭐ 4.5 / 5</div>
+            <p id="detailDescription" class="detail-description"></p>
+            <h2 class="ability-title">⚡ Abilities & Skills</h2>
+            <ul id="detailAbilities" class="abilities"></ul>
+            <div class="detail-actions">
+                <a class="first-btn" href="index.html#collection">Explore More Cards</a>
+                <button class="second-btn" onclick="history.back()">Go Back</button>
+            </div>
+        </div>
+    </section>
+</main>
+</div>
+<script src="script.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+const character = characters[id];
+
+if (!character) {
+    document.getElementById("detailName").textContent = "Character Not Found";
+    document.getElementById("detailDescription").textContent = "This card does not exist in the current collection.";
+} else {
+    document.title = `${character.name} | ANIME World`;
+    document.getElementById("detailImage").src = character.image;
+    document.getElementById("detailImage").alt = character.name;
+    document.getElementById("detailType").textContent = character.type.toUpperCase();
+    document.getElementById("detailName").textContent = character.name;
+    document.getElementById("detailAnime").textContent = character.anime;
+    document.getElementById("detailDescription").textContent = character.description;
+
+    const list = document.getElementById("detailAbilities");
+    character.abilities.forEach(ability => {
+        const li = document.createElement("li");
+        li.textContent = ability;
+        list.appendChild(li);
+    });
+}
+</script>
+</body>
+</html>
